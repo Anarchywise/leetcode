@@ -1,27 +1,22 @@
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 class Solution {
-    public int minMutation(String startGene, String endGene, String[] bank) {
-        int n = bank.length;
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        int n = wordList.size();
         Map<Integer,String> map = new HashMap<>();
         int end =0;
         int start = 0;
         for(int i=0;i<n;i++){
-            map.put(i+1,bank[i]);
-            if(bank[i].equals(endGene)){
+            map.put(i+1,wordList.get(i));
+            if(wordList.get(i).equals(endWord)){
                 end = i+1;
             }
-            if(bank[i].equals(startGene)){
+            if(wordList.get(i).equals(beginWord)){
                 start = i+1;
             }
         }
-        if(!map.containsValue(startGene)) map.put(start, startGene);
-        if(!map.containsValue(endGene)) return -1;
+        if(!map.containsValue(beginWord)) map.put(start, beginWord);
+        if(!map.containsValue(endWord)) return 0;
 
         List<Integer>[] edges = new List[n+1];
         for(int i=0;i<=n;i++){
@@ -43,7 +38,7 @@ class Solution {
 
         Queue<Integer> queue = new ArrayDeque<>();
         queue.offer(start);
-        int count =0;
+        int count =1;
         while(!queue.isEmpty()&&!visited[end]){
             List<Integer> level = new ArrayList<>();
             while(!queue.isEmpty()){
@@ -70,17 +65,17 @@ class Solution {
         if(visited[end]){
             return count;
         }else{
-            return -1;
+            return 0;
         }
             
 
     }
     public boolean isChangeOne(String str1, String str2){
         int count=0;
-        if(str1 == null||str2==null||str1.length()!=8||str1.length()!=str2.length()){
+        if(str1 == null||str2==null||str1.length()!=str2.length()){
             return false;
         }
-        for(int i=0;i<8;i++){
+        for(int i=0;i<str1.length();i++){
             if(str1.charAt(i) != str2.charAt(i)){
                 count++;
             }
